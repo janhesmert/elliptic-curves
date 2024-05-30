@@ -18,8 +18,12 @@
 pub mod r1;
 pub mod t1;
 
+
 #[cfg(feature = "wip-arithmetic-do-not-use")]
 mod arithmetic;
+
+#[cfg(any(feature = "test-vectors", test))]
+pub mod test_vectors;
 
 pub use crate::{r1::BrainpoolP256r1, t1::BrainpoolP256t1};
 pub use elliptic_curve::{self, bigint::U256};

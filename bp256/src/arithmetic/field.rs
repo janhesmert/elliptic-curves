@@ -320,3 +320,133 @@ mod tests {
     impl_field_sqrt_tests!(FieldElement);
     impl_primefield_tests!(FieldElement, T);
 }
+
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    extern crate std;
+    use std::println;
+    use elliptic_curve::ff::PrimeField;
+    use primeorder::{
+        impl_field_identity_tests, impl_field_invert_tests, impl_field_sqrt_tests,
+        impl_primefield_tests,
+    };
+    
+
+    /// t = (modulus - 1) >> S
+    /// 0x54fdabedd0f754de1f3305484ec1c6b9371dfb11ea9310141009a40e8fb729bb
+    const T: [u64; 4] = [
+        0x1009a40e8fb729bb,
+        0x371dfb11ea931014,
+        0x1f3305484ec1c6b9,
+        0x54fdabedd0f754de,
+    ];
+    #[test]
+    fn zero_is_additive_identity_duplicate() {
+        let zero = FieldElement::ZERO;
+        let one = FieldElement::ONE;
+        assert_eq!(zero.add(&zero), zero);
+        assert_eq!(one.add(&zero), one);
+    }
+
+    #[test]
+    fn double_test() {
+        use crate::test_vectors::field::DBL_TEST_VECTORS;
+        let two: FieldElement= FieldElement::from_u64(2);
+        let mut a: FieldElement = FieldElement::ONE;
+        for i in 0..256{
+            let b: FieldElement = FieldElement::from_slice(&DBL_TEST_VECTORS[i]).unwrap();
+            assert_eq!(a,b);
+            a = a.multiply(&two);
+        }
+    }
+
+
+    #[test]
+    fn sqrty_test() {
+        use crate::test_vectors::field::MULT_TEST_VECTORS_A;
+        let mut ctr = 0;
+        for i in 0..1024{
+            let a: FieldElement= FieldElement::from_hex(MULT_TEST_VECTORS_A[i]);
+            if a == a.square().sqrt().unwrap(){
+                ctr +=1;
+            }
+            
+        }
+        println!("{}", ctr);
+        let a: FieldElement= FieldElement::from_hex("9ACF163FD89EE32CAFEE64372ACDDBB5003BC177376ADEFE236BCDF73ACFD087");
+        //assert_eq!(a,a.square().sqrt().unwrap())
+        let c: FieldElement = a.square();
+        println!("sqrt(a^2) = {:?}",c.sqrt().unwrap().to_canonical());
+        println!("c = {:?}",c.to_canonical());
+
+    }
+
+
+
+
+    #[test]
+    fn sqare_test() {
+        use crate::test_vectors::field::SQ_TEST_VECTORS;
+        let mut counter = 0;
+        let n = SQ_TEST_VECTORS.len();
+        for i in 0..n{
+            let a: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].0).unwrap();
+            let b: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].1).unwrap();
+            assert_eq!(a.square(), b);
+            if a.square() == b{
+                counter +=1;
+            }
+        }
+        println!("n =  {n}");
+        println!("Success rate = {} %", (counter*100) as f64 / n as f64);
+    } 
+
+    #[test]
+    fn sqrt_test() {
+        use crate::test_vectors::field::SQ_TEST_VECTORS;
+        let mut counter = 0;
+        let n = SQ_TEST_VECTORS.len();
+        for i in 0..n{
+            let a: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].0).unwrap();
+            let b: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].1).unwrap();
+            assert!(b.sqrt().unwrap() == a || b.sqrt().unwrap().neg() == a);
+            if b.sqrt().unwrap() == a {
+                counter +=1;
+            }else if b.sqrt().unwrap().neg() == a { //catch the case where sqrt might have calculated the wrong value
+                counter +=1;
+            }
+        }
+        println!("n =  {n}");
+        println!("Success rate = {} %", (counter*100) as f64 / n as f64);
+    } 
+
+
+
+    #[test]
+    fn some_test() {
+        //use crate::test_vectors::field::SQ_TEST_VECTORS_C as yomama;
+        //let a: FieldElement= FieldElement::from_hex("519b423d715f8b581f4fa8ee59f4771a5b44c8130b4e3eacca54a56dda72b464");
+        //let b: FieldElement= FieldElement::ONE;
+        //println!("brate jaui    = {:?}",yomama[0].1);
+        //const DATA: [u8; 32] = hex!("519b423d715f8b581f4fa8ee59f4771a5b44c8130b4e3eacca54a56dda72b464");
+        //println!("a    = {:?}",a.to_bytes());
+        //println!("DATA = {:?}",DATA);
+        //println!("b = {:?}",b);
+        //use crate::test_vectors::field::SQ_TEST_VECTORS;
+        //const DATA: [u8; 32] = hex!("519b423d715f8b581f4fa8ee59f4771a5b44c8130b4e3eacca54a56dda72b464");
+        //let a: FieldElement: FieldElement::from_slice(DATA);
+    } 
+
+
+    
+
+    impl_field_identity_tests!(FieldElement);
+    impl_field_invert_tests!(FieldElement);
+    impl_field_sqrt_tests!(FieldElement);
+    impl_primefield_tests!(FieldElement, T);
+
+
+}
