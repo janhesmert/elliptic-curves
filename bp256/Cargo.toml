@@ -25,7 +25,7 @@ hex-literal = { version = "0.4", optional = true }
 hex-literal = "0.4"
 
 [features]
-default = ["pkcs8", "std", "wip-arithmetic-do-not-use"] # change back asap
+default = ["pkcs8", "std"]
 alloc = ["ecdsa?/alloc", "elliptic-curve/alloc", "primeorder?/alloc"]
 std = ["alloc", "ecdsa?/std", "elliptic-curve/std"]
 
@@ -34,7 +34,6 @@ pkcs8 = ["ecdsa/pkcs8", "elliptic-curve/pkcs8"]
 serde = ["ecdsa/serde", "elliptic-curve/serde"]
 sha256 = ["ecdsa/digest", "ecdsa/hazmat", "sha2"]
 wip-arithmetic-do-not-use = ["dep:primeorder","dep:hex-literal"]
-test-vectors = ["dep:hex-literal"]
 
 [package.metadata.docs.rs]
 all-features = true
