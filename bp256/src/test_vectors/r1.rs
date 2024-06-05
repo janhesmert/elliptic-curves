@@ -1,4 +1,4 @@
-// test vectors for bp256r1,
+// test vectors for bp256r1
 // LINK HERE
 
 use hex_literal::hex;

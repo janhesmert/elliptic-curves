@@ -62,7 +62,6 @@ impl From<&Scalar> for ScalarPrimitive {
     }
 }
 
-
 #[cfg(test)]
 #[allow(unused)]
 
@@ -72,8 +71,7 @@ mod tests {
     extern crate std;
     use std::println;
 
-
-/* 
+    /*
     #[test]
     fn test_add() {
         let a: Scalar = Scalar::from_u64(1);
@@ -160,7 +158,7 @@ mod tests {
         //println!("x: {} ot of 4096",x_ct);
         //println!("y: {} ot of 4096",y_ct);
     }
-     
+
     #[test]
     fn brainpool_test() {
         // from brainpool, https://datatracker.ietf.org/doc/rfc8734/
@@ -168,7 +166,7 @@ mod tests {
         let d_a: Scalar = Scalar::from_hex("81DB1EE100150FF2EA338D708271BE38300CB54241D79950F77B063039804F1D");
         let x_qa: FieldElement = FieldElement::from_hex("44106E913F92BC02A1705D9953A8414DB95E1AAA49E81D9E85F929A8E3100BE5");
         let y_qa :FieldElement = FieldElement::from_hex("8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC");
-  
+
         let d_b : Scalar = Scalar::from_hex("55E40BC41E37E3E2AD25C3C6654511FFA8474A91A0032087593852D3E7D76BD3");
         let x_qb :FieldElement = FieldElement::from_hex("8D2D688C6CF93E1160AD04CC4429117DC2C41825E1E9FCA0ADDD34E6F1B39F7B");
         let y_qb :FieldElement = FieldElement::from_hex("990C57520812BE512641E47034832106BC7D3E8DD0E4C7F1136D7006547CEC6A");
@@ -188,33 +186,27 @@ mod tests {
         let q_ab: AffinePoint = P.mul(&d_ab).to_affine();
         assert_eq!(q_ab.x, x_z);
         assert_eq!(q_ab.y, y_z);
-    } 
+    }
 
     */
-
 
     #[test]
     fn brate() {
         use crate::test_vectors::r1::MUL_TEST_VECTORS;
-        let mut counter =0;
+        let mut counter = 0;
         let n = MUL_TEST_VECTORS.len();
-        for i in 0..MUL_TEST_VECTORS.len(){
+        for i in 0..MUL_TEST_VECTORS.len() {
             let a: Scalar = Scalar::from_slice(&MUL_TEST_VECTORS[0].0).unwrap();
             let x: FieldElement = FieldElement::from_slice(&MUL_TEST_VECTORS[0].1).unwrap();
             let y: FieldElement = FieldElement::from_slice(&MUL_TEST_VECTORS[0].2).unwrap();
             let p: AffinePoint = ProjectivePoint::GENERATOR.mul(&a).to_affine();
-            let q: AffinePoint = AffinePoint{
-                x,
-                y,
-                infinity: 0
-            };
-            assert_eq!(p,q);
-            if(p==q){
-                counter+=1;
+            let q: AffinePoint = AffinePoint { x, y, infinity: 0 };
+            assert_eq!(p, q);
+            if (p == q) {
+                counter += 1;
             }
-        };
+        }
         println!("sample size  = {:?}", n);
-        println!("success rate = {:?}%", (100*counter) as f64 / n as f64);
+        println!("success rate = {:?}%", (100 * counter) as f64 / n as f64);
     }
-
 }

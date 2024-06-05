@@ -18,7 +18,6 @@
 pub mod r1;
 pub mod t1;
 
-
 #[cfg(feature = "wip-arithmetic-do-not-use")]
 mod arithmetic;
 

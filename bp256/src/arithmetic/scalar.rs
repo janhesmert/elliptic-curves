@@ -403,13 +403,13 @@ impl TryFrom<U256> for Scalar {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::test_vectors::scalar::{
+        ADD_TEST_VECTORS, DBL_TEST_VECTORS, INV_TEST_VECTORS, MULT_TEST_VECTORS, SQ_TEST_VECTORS,
+    };
     use elliptic_curve::ff::PrimeField;
     use primeorder::{
         impl_field_identity_tests, impl_field_invert_tests, impl_field_sqrt_tests,
         impl_primefield_tests,
-    };
-    use crate::test_vectors::scalar::{
-        ADD_TEST_VECTORS, MULT_TEST_VECTORS, DBL_TEST_VECTORS, SQ_TEST_VECTORS, INV_TEST_VECTORS,
     };
 
     /// t = (modulus - 1) >> S
@@ -426,65 +426,64 @@ mod tests {
     impl_field_sqrt_tests!(Scalar);
     impl_primefield_tests!(Scalar, T);
 
-    #[test] 
+    #[test]
     // Test the multiplication in F_q.
     fn add_test() {
-        for i in 0..ADD_TEST_VECTORS.len(){
-            let a: Scalar =  Scalar::from_slice(&ADD_TEST_VECTORS[i].0).unwrap();
-            let b: Scalar =  Scalar::from_slice(&ADD_TEST_VECTORS[i].1).unwrap();
-            let c: Scalar =  Scalar::from_slice(&ADD_TEST_VECTORS[i].2).unwrap();
+        for i in 0..ADD_TEST_VECTORS.len() {
+            let a: Scalar = Scalar::from_slice(&ADD_TEST_VECTORS[i].0).unwrap();
+            let b: Scalar = Scalar::from_slice(&ADD_TEST_VECTORS[i].1).unwrap();
+            let c: Scalar = Scalar::from_slice(&ADD_TEST_VECTORS[i].2).unwrap();
             assert_eq!(a.add(&b), c);
         }
     }
 
-    #[test] 
+    #[test]
     // Test the multiplication in F_q.
     fn mult_test() {
-        for i in 0..MULT_TEST_VECTORS.len(){
-            let a: Scalar =  Scalar::from_slice(&MULT_TEST_VECTORS[i].0).unwrap();
-            let b: Scalar =  Scalar::from_slice(&MULT_TEST_VECTORS[i].1).unwrap();
-            let c: Scalar =  Scalar::from_slice(&MULT_TEST_VECTORS[i].2).unwrap();
+        for i in 0..MULT_TEST_VECTORS.len() {
+            let a: Scalar = Scalar::from_slice(&MULT_TEST_VECTORS[i].0).unwrap();
+            let b: Scalar = Scalar::from_slice(&MULT_TEST_VECTORS[i].1).unwrap();
+            let c: Scalar = Scalar::from_slice(&MULT_TEST_VECTORS[i].2).unwrap();
             assert_eq!(a.multiply(&b), c);
         }
     }
 
-    #[test] 
+    #[test]
     // Test the inversion in F_q.
     fn inv_test() {
-        for i in 0..INV_TEST_VECTORS.len(){
-            let a: Scalar =  Scalar::from_slice(&INV_TEST_VECTORS[i].0).unwrap();
-            let b: Scalar =  Scalar::from_slice(&INV_TEST_VECTORS[i].1).unwrap();
+        for i in 0..INV_TEST_VECTORS.len() {
+            let a: Scalar = Scalar::from_slice(&INV_TEST_VECTORS[i].0).unwrap();
+            let b: Scalar = Scalar::from_slice(&INV_TEST_VECTORS[i].1).unwrap();
             assert_eq!(a, b.invert_unchecked());
         }
     }
 
     #[test]
     fn double_test() {
-        let two: Scalar= Scalar::from_u64(2);
+        let two: Scalar = Scalar::from_u64(2);
         let mut a: Scalar = Scalar::ONE;
-        for i in 0..DBL_TEST_VECTORS.len(){
+        for i in 0..DBL_TEST_VECTORS.len() {
             let b: Scalar = Scalar::from_slice(&DBL_TEST_VECTORS[i]).unwrap();
-            assert_eq!(a,b);
+            assert_eq!(a, b);
             a = a.multiply(&two);
         }
     }
 
     #[test]
     fn sqare_test() {
-        for i in 0..SQ_TEST_VECTORS.len(){
+        for i in 0..SQ_TEST_VECTORS.len() {
             let a: Scalar = Scalar::from_slice(&SQ_TEST_VECTORS[i].0).unwrap();
             let b: Scalar = Scalar::from_slice(&SQ_TEST_VECTORS[i].1).unwrap();
             assert_eq!(a.square(), b);
         }
-    } 
+    }
 
     #[test]
     fn sqrt_test() {
-        for i in 0..SQ_TEST_VECTORS.len(){
+        for i in 0..SQ_TEST_VECTORS.len() {
             let a: Scalar = Scalar::from_slice(&SQ_TEST_VECTORS[i].0).unwrap();
             let b: Scalar = Scalar::from_slice(&SQ_TEST_VECTORS[i].1).unwrap();
             assert!(b.sqrt().unwrap() == a || b.sqrt().unwrap().neg() == a);
         }
-    } 
+    }
 }
-

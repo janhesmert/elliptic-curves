@@ -300,15 +300,14 @@ impl Invert for FieldElement {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::test_vectors::field::{
+        ADD_TEST_VECTORS, DBL_TEST_VECTORS, INV_TEST_VECTORS, MULT_TEST_VECTORS, SQ_TEST_VECTORS,
+    };
     use elliptic_curve::ff::PrimeField;
     use primeorder::{
         impl_field_identity_tests, impl_field_invert_tests, impl_field_sqrt_tests,
         impl_primefield_tests,
     };
-    use crate::test_vectors::field::{
-        ADD_TEST_VECTORS, MULT_TEST_VECTORS, DBL_TEST_VECTORS, SQ_TEST_VECTORS, INV_TEST_VECTORS,
-    };
-    
 
     /// t = (modulus - 1) >> S
     /// 0x54fdabedd0f754de1f3305484ec1c6b9371dfb11ea9310141009a40e8fb729bb
@@ -324,65 +323,64 @@ mod tests {
     impl_field_sqrt_tests!(FieldElement);
     impl_primefield_tests!(FieldElement, T);
 
-    #[test] 
+    #[test]
     // Test the multiplication in F_p.
     fn add_test() {
-        for i in 0..ADD_TEST_VECTORS.len(){
-            let a: FieldElement =  FieldElement::from_slice(&ADD_TEST_VECTORS[i].0).unwrap();
-            let b: FieldElement =  FieldElement::from_slice(&ADD_TEST_VECTORS[i].1).unwrap();
-            let c: FieldElement =  FieldElement::from_slice(&ADD_TEST_VECTORS[i].2).unwrap();
+        for i in 0..ADD_TEST_VECTORS.len() {
+            let a: FieldElement = FieldElement::from_slice(&ADD_TEST_VECTORS[i].0).unwrap();
+            let b: FieldElement = FieldElement::from_slice(&ADD_TEST_VECTORS[i].1).unwrap();
+            let c: FieldElement = FieldElement::from_slice(&ADD_TEST_VECTORS[i].2).unwrap();
             assert_eq!(a.add(&b), c);
         }
     }
 
-    #[test] 
+    #[test]
     // Test the multiplication in F_p.
     fn mult_test() {
-        for i in 0..MULT_TEST_VECTORS.len(){
-            let a: FieldElement =  FieldElement::from_slice(&MULT_TEST_VECTORS[i].0).unwrap();
-            let b: FieldElement =  FieldElement::from_slice(&MULT_TEST_VECTORS[i].1).unwrap();
-            let c: FieldElement =  FieldElement::from_slice(&MULT_TEST_VECTORS[i].2).unwrap();
+        for i in 0..MULT_TEST_VECTORS.len() {
+            let a: FieldElement = FieldElement::from_slice(&MULT_TEST_VECTORS[i].0).unwrap();
+            let b: FieldElement = FieldElement::from_slice(&MULT_TEST_VECTORS[i].1).unwrap();
+            let c: FieldElement = FieldElement::from_slice(&MULT_TEST_VECTORS[i].2).unwrap();
             assert_eq!(a.multiply(&b), c);
         }
     }
 
-    #[test] 
+    #[test]
     // Test the inversion in F_p.
     fn inv_test() {
-        for i in 0..INV_TEST_VECTORS.len(){
-            let a: FieldElement =  FieldElement::from_slice(&INV_TEST_VECTORS[i].0).unwrap();
-            let b: FieldElement =  FieldElement::from_slice(&INV_TEST_VECTORS[i].1).unwrap();
+        for i in 0..INV_TEST_VECTORS.len() {
+            let a: FieldElement = FieldElement::from_slice(&INV_TEST_VECTORS[i].0).unwrap();
+            let b: FieldElement = FieldElement::from_slice(&INV_TEST_VECTORS[i].1).unwrap();
             assert_eq!(a, b.invert_unchecked());
         }
     }
 
-
     #[test]
     fn double_test() {
-        let two: FieldElement= FieldElement::from_u64(2);
+        let two: FieldElement = FieldElement::from_u64(2);
         let mut a: FieldElement = FieldElement::ONE;
-        for i in 0..DBL_TEST_VECTORS.len(){
+        for i in 0..DBL_TEST_VECTORS.len() {
             let b: FieldElement = FieldElement::from_slice(&DBL_TEST_VECTORS[i]).unwrap();
-            assert_eq!(a,b);
+            assert_eq!(a, b);
             a = a.multiply(&two);
         }
     }
 
     #[test]
     fn square_test() {
-        for i in 0..SQ_TEST_VECTORS.len(){
+        for i in 0..SQ_TEST_VECTORS.len() {
             let a: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].0).unwrap();
             let b: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].1).unwrap();
             assert_eq!(a.square(), b);
         }
-    } 
+    }
 
     #[test]
     fn sqrt_test() {
-        for i in 0..SQ_TEST_VECTORS.len(){
+        for i in 0..SQ_TEST_VECTORS.len() {
             let a: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].0).unwrap();
             let b: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].1).unwrap();
             assert!(b.sqrt().unwrap() == a || b.sqrt().unwrap().neg() == a);
         }
-    } 
+    }
 }
