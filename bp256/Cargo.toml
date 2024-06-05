@@ -25,7 +25,8 @@ hex-literal = { version = "0.4", optional = true }
 hex-literal = "0.4"
 
 [features]
-default = ["pkcs8", "std"]
+# default = ["pkcs8", "std"] 
+default = ["pkcs8", "std","wip-arithmetic-do-not-use"] 
 alloc = ["ecdsa?/alloc", "elliptic-curve/alloc", "primeorder?/alloc"]
 std = ["alloc", "ecdsa?/std", "elliptic-curve/std"]
 

@@ -103,7 +103,7 @@ where
     }
 
     /// Returns `[k] self`.
-    fn mul(&self, k: &Scalar<C>) -> Self
+    pub fn mul(&self, k: &Scalar<C>) -> Self
     where
         Self: Double,
     {

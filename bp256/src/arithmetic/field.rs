@@ -306,7 +306,7 @@ mod tests {
         impl_primefield_tests,
     };
     use crate::test_vectors::field::{
-        MULT_TEST_ELEMENT, MULT_TEST_VECTORS, DBL_TEST_VECTORS, SQ_TEST_VECTORS, INV_TEST_VECTORS,
+        ADD_TEST_VECTORS, MULT_TEST_VECTORS, DBL_TEST_VECTORS, SQ_TEST_VECTORS, INV_TEST_VECTORS,
     };
     
 
@@ -324,16 +324,25 @@ mod tests {
     impl_field_sqrt_tests!(FieldElement);
     impl_primefield_tests!(FieldElement, T);
 
-     
+    #[test] 
+    // Test the multiplication in F_p.
+    fn add_test() {
+        for i in 0..ADD_TEST_VECTORS.len(){
+            let a: FieldElement =  FieldElement::from_slice(&ADD_TEST_VECTORS[i].0).unwrap();
+            let b: FieldElement =  FieldElement::from_slice(&ADD_TEST_VECTORS[i].1).unwrap();
+            let c: FieldElement =  FieldElement::from_slice(&ADD_TEST_VECTORS[i].2).unwrap();
+            assert_eq!(a.add(&b), c);
+        }
+    }
+
     #[test] 
     // Test the multiplication in F_p.
     fn mult_test() {
-        let a: FieldElement = FieldElement::from_slice(MULT_TEST_ELEMENT).unwrap();
-        let mut b: FieldElement = FieldElement::ONE;
         for i in 0..MULT_TEST_VECTORS.len(){
-            let c: FieldElement =  FieldElement::from_slice(&MULT_TEST_VECTORS[i]).unwrap();
-            assert_eq!(b, c);
-            b = b.multiply(&a);
+            let a: FieldElement =  FieldElement::from_slice(&MULT_TEST_VECTORS[i].0).unwrap();
+            let b: FieldElement =  FieldElement::from_slice(&MULT_TEST_VECTORS[i].1).unwrap();
+            let c: FieldElement =  FieldElement::from_slice(&MULT_TEST_VECTORS[i].2).unwrap();
+            assert_eq!(a.multiply(&b), c);
         }
     }
 
@@ -352,7 +361,7 @@ mod tests {
     fn double_test() {
         let two: FieldElement= FieldElement::from_u64(2);
         let mut a: FieldElement = FieldElement::ONE;
-        for i in 0..256{
+        for i in 0..DBL_TEST_VECTORS.len(){
             let b: FieldElement = FieldElement::from_slice(&DBL_TEST_VECTORS[i]).unwrap();
             assert_eq!(a,b);
             a = a.multiply(&two);
