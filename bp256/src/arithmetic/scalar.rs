@@ -409,7 +409,7 @@ mod tests {
         impl_primefield_tests,
     };
     use crate::test_vectors::scalar::{
-        MULT_TEST_VECTORS, DBL_TEST_VECTORS, SQ_TEST_VECTORS, INV_TEST_VECTORS,
+        ADD_TEST_VECTORS, MULT_TEST_VECTORS, DBL_TEST_VECTORS, SQ_TEST_VECTORS, INV_TEST_VECTORS,
     };
 
     /// t = (modulus - 1) >> S
@@ -425,6 +425,17 @@ mod tests {
     impl_field_invert_tests!(Scalar);
     impl_field_sqrt_tests!(Scalar);
     impl_primefield_tests!(Scalar, T);
+
+    #[test] 
+    // Test the multiplication in F_q.
+    fn add_test() {
+        for i in 0..ADD_TEST_VECTORS.len(){
+            let a: Scalar =  Scalar::from_slice(&ADD_TEST_VECTORS[i].0).unwrap();
+            let b: Scalar =  Scalar::from_slice(&ADD_TEST_VECTORS[i].1).unwrap();
+            let c: Scalar =  Scalar::from_slice(&ADD_TEST_VECTORS[i].2).unwrap();
+            assert_eq!(a.add(&b), c);
+        }
+    }
 
     #[test] 
     // Test the multiplication in F_q.
@@ -476,3 +487,4 @@ mod tests {
         }
     } 
 }
+

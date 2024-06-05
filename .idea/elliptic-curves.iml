@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="EMPTY_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/bign256/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/bign256/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/bign256/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/bp256/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/bp384/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/k256/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/k256/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/p192/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/p192/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/p224/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/p224/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/p256/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/p256/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/p256/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/p384/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/p384/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/p384/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/p521/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/p521/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/p521/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/primefield/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/primeorder/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sm2/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sm2/tests" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

@@ -197,6 +197,7 @@ mod tests {
     fn brate() {
         use crate::test_vectors::r1::MUL_TEST_VECTORS;
         let mut counter =0;
+        let n = MUL_TEST_VECTORS.len();
         for i in 0..MUL_TEST_VECTORS.len(){
             let a: Scalar = Scalar::from_slice(&MUL_TEST_VECTORS[0].0).unwrap();
             let x: FieldElement = FieldElement::from_slice(&MUL_TEST_VECTORS[0].1).unwrap();
@@ -208,8 +209,12 @@ mod tests {
                 infinity: 0
             };
             assert_eq!(p,q);
+            if(p==q){
+                counter+=1;
+            }
         };
-        println!("counter = {:?}", counter);
+        println!("sample size  = {:?}", n);
+        println!("success rate = {:?}%", (100*counter) as f64 / n as f64);
     }
 
 }

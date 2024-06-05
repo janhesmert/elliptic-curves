@@ -369,7 +369,7 @@ mod tests {
     }
 
     #[test]
-    fn sqare_test() {
+    fn square_test() {
         for i in 0..SQ_TEST_VECTORS.len(){
             let a: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].0).unwrap();
             let b: FieldElement = FieldElement::from_slice(&SQ_TEST_VECTORS[i].1).unwrap();
