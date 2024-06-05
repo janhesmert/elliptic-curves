@@ -70,95 +70,11 @@ mod tests {
     use crate::test_vectors::r1::MUL_TEST_VECTORS;
     extern crate std;
     use std::println;
+    use elliptic_curve::group::GroupEncoding;
+    use elliptic_curve::sec1::ToEncodedPoint;
+
 
     /*
-    #[test]
-    fn test_add() {
-        let a: Scalar = Scalar::from_u64(1);
-        let x: FieldElement = P.x;
-        let y: FieldElement = P.y;
-        if x == X{
-            println!("x is great");
-        }
-        if y == Y{
-            println!("y is great");
-        }
-        let p: AffinePoint = P.to_affine();
-        let q: AffinePoint = P.mul(&a).to_affine();
-        println!("P = {:?}",p);
-        println!("a = {:?}",a);
-        println!("Q = aP = {:?}",q);
-        println!("X = {:?}",X);
-        println!("Y = {:?}",Y);
-        println!("1 = {:?}",FieldElement::ONE);
-    }
-
-    #[test]
-    fn scalar_multiplication(){
-        let mut x_counter = 0;
-        let mut y_counter=0;
-        for i in 0..SCALAR_TEST_VECTORS.len(){
-            let a: Scalar = Scalar::from_u64(i as u64);
-            let x_ref: FieldElement = FieldElement::from_hex(X_TEST[i]);
-            let y_ref: FieldElement = FieldElement::from_hex(Y_TEST[i]);
-            let q: AffinePoint = P.mul(&a).to_affine();
-            let x: FieldElement = q.x;
-            let y: FieldElement = q.y;
-            if x == x_ref{
-                x_counter +=1;
-            }
-            if y == y_ref{
-                y_counter +=1;
-            }
-        }
-        println!("x_counter = {}", x_counter);
-        println!("y_counter = {}", y_counter);
-        println!("IDENTITY = {:?}", ProjectivePoint::IDENTITY);
-        println!("aP       = {:?}", P.mul(&Scalar::ZERO));
-        println!("{:?}", FieldElement::ONE.to_canonical())
-    }
-
-
-
-    #[test]
-    fn scalar_multiplication_dbl(){
-        use crate::test_vectors::r1::DBL_TEST_A;
-        use crate::test_vectors::r1::DBL_TEST_X;
-        use crate::test_vectors::r1::DBL_TEST_Y;
-        for i in 1..256{
-            let a: Scalar = Scalar::from_hex(DBL_TEST_A[i]);
-            let x_ref: FieldElement = FieldElement::from_hex(DBL_TEST_X[i]);
-            let y_ref: FieldElement = FieldElement::from_hex(DBL_TEST_Y[i]);
-            let q: AffinePoint = P.mul(&a).to_affine();
-            let x: FieldElement = q.x;
-            let y: FieldElement = q.y;
-            assert_eq!(x, x_ref);
-            assert_eq!(y, y_ref);
-        }
-    }
-
-
-    #[test]
-    fn scalar_multiplication_pow(){
-        use crate::test_vectors::r1::POW_TEST_A;
-        use crate::test_vectors::r1::POW_TEST_X;
-        use crate::test_vectors::r1::POW_TEST_Y;
-        let a: Scalar = Scalar::from_hex(POW_TEST_A);
-        for i in 0..4096{
-            let exp: Scalar  = a.pow_vartime(&[i as u64]);
-            let x_ref: FieldElement = FieldElement::from_hex(POW_TEST_X[i]);
-            let y_ref: FieldElement = FieldElement::from_hex(POW_TEST_Y[i]);
-            let q: AffinePoint = P.mul(&exp).to_affine();
-            let x: FieldElement = q.x;
-            let y: FieldElement = q.y;
-            assert_eq!(x, x_ref);
-            assert_eq!(y, y_ref);
-            //b  = b.multiply(&a);
-        }
-        //println!("x: {} ot of 4096",x_ct);
-        //println!("y: {} ot of 4096",y_ct);
-    }
-
     #[test]
     fn brainpool_test() {
         // from brainpool, https://datatracker.ietf.org/doc/rfc8734/
@@ -189,12 +105,22 @@ mod tests {
     }
 
     */
-
+    
+    // TO DO: Go on here, recover the bytes!!
+    
     #[test]
-    fn brate() {
-        use crate::test_vectors::r1::MUL_TEST_VECTORS;
+    fn playground(){
+        let p: ProjectivePoint = ProjectivePoint::GENERATOR;
+        let a: Scalar = Scalar::from_u64(1);
+        println!("{:?}",p.to_bytes());
+        println!("{:?}",p.to_encoded_point(false).to_bytes());
+    }
+    
+    
+    
+    #[test]
+    fn scalar_multiplication() {
         let mut counter = 0;
-        let n = MUL_TEST_VECTORS.len();
         for i in 0..MUL_TEST_VECTORS.len() {
             let a: Scalar = Scalar::from_slice(&MUL_TEST_VECTORS[0].0).unwrap();
             let x: FieldElement = FieldElement::from_slice(&MUL_TEST_VECTORS[0].1).unwrap();
@@ -206,7 +132,10 @@ mod tests {
                 counter += 1;
             }
         }
-        println!("sample size  = {:?}", n);
-        println!("success rate = {:?}%", (100 * counter) as f64 / n as f64);
+        println!("sample size  = {:?}", MUL_TEST_VECTORS.len());
+        println!(
+            "success rate = {:?}%",
+            (100 * counter) as f64 / MUL_TEST_VECTORS.len() as f64
+        );
     }
 }
