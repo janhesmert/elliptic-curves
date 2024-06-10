@@ -67,7 +67,6 @@ impl From<&Scalar> for ScalarPrimitive {
 
 mod tests {
     use super::*;
-    use crate::test_vectors::r1::MUL_TEST_VECTORS;
     extern crate std;
     use std::println;
     use elliptic_curve::group::GroupEncoding;
@@ -105,21 +104,23 @@ mod tests {
     }
 
     */
-    
+
     // TO DO: Go on here, recover the bytes!!
-    
+
     #[test]
     fn playground(){
         let p: ProjectivePoint = ProjectivePoint::GENERATOR;
         let a: Scalar = Scalar::from_u64(1);
+        println!("{:?}",p.to_affine());
         println!("{:?}",p.to_bytes());
         println!("{:?}",p.to_encoded_point(false).to_bytes());
     }
-    
-    
+
+
     
     #[test]
     fn scalar_multiplication() {
+        use crate::test_vectors::r1::MUL_TEST_VECTORS;
         let mut counter = 0;
         for i in 0..MUL_TEST_VECTORS.len() {
             let a: Scalar = Scalar::from_slice(&MUL_TEST_VECTORS[0].0).unwrap();
