@@ -109,11 +109,37 @@ mod tests {
 
     #[test]
     fn playground(){
-        let p: ProjectivePoint = ProjectivePoint::GENERATOR;
-        let a: Scalar = Scalar::from_u64(1);
-        println!("{:?}",p.to_affine());
-        println!("{:?}",p.to_bytes());
-        println!("{:?}",p.to_encoded_point(false).to_bytes());
+        use hex_literal::hex;
+        use crate::test_vectors::r1::MUL_TEST_VECTORS;
+        let mut counter = 0;
+        for i in 0..MUL_TEST_VECTORS.len() {
+            let a: Scalar = Scalar::from_slice(&MUL_TEST_VECTORS[i].0).unwrap();
+            let p: AffinePoint = ProjectivePoint::GENERATOR.mul(&a).to_affine();
+            let x_ref: &[u8] = &MUL_TEST_VECTORS[i].1;
+            let y_ref: &[u8] = &MUL_TEST_VECTORS[i].2;
+            if(x_ref == &p.to_encoded_point(false).as_bytes()[1..33] && y_ref == &p.to_encoded_point(false).as_bytes()[33..65] ){
+                counter += 1;
+            }
+        }
+        println!("counter = {:?}",counter);
+
+
+
+
+        //println!("x = {:X?}",p.to_affine().x.to_canonical());
+        //println!("y = {:X?}",p.to_affine().y.to_canonical());
+        /*
+        println!("bytes = {:X?}",p.to_bytes());
+        println!("x_arr = {:X?}",x_arr);
+        println!("y_arr = {:X?}",y_arr);
+        println!("y_arr.len() = {:?}",y_arr.len());
+        if(x_arr == &p.to_encoded_point(false).as_bytes()[1..33]){
+            println!("yo bish")
+        }
+        println!("x_cmp = {:X?}",&p.to_encoded_point(false).as_bytes()[1..33]);
+        println!("x_cmp = {:X?}",&p.to_encoded_point(false).as_bytes()[33..65]);
+        
+         */
     }
 
 
