@@ -5,6 +5,8 @@ use crate::{FieldElement, Scalar};
 use elliptic_curve::{CurveArithmetic, PrimeCurveArithmetic};
 use primeorder::{point_arithmetic, PrimeCurveParams};
 
+
+
 /// Elliptic curve point in affine coordinates.
 pub type AffinePoint = primeorder::AffinePoint<BrainpoolP256r1>;
 
@@ -69,9 +71,11 @@ mod tests {
     use super::*;
     extern crate std;
     use std::println;
-    use elliptic_curve::group::GroupEncoding;
-    use elliptic_curve::sec1::ToEncodedPoint;
+    use elliptic_curve::{sec1::ToEncodedPoint, group::GroupEncoding};
+    use hybrid_array::{typenum::U32, Array};
+    use crate::test_vectors::r1::MUL_TEST_VECTORS;
 
+    type EncodedPoint = elliptic_curve::sec1::EncodedPoint<BrainpoolP256r1>;
 
     /*
     #[test]
@@ -105,47 +109,29 @@ mod tests {
 
     */
 
-    // TO DO: Go on here, recover the bytes!!
+
 
     #[test]
-    fn playground(){
-        use hex_literal::hex;
-        use crate::test_vectors::r1::MUL_TEST_VECTORS;
+    fn scalar_multiplication() {
         let mut counter = 0;
-        for i in 0..MUL_TEST_VECTORS.len() {
+        for i in 0..MUL_TEST_VECTORS.len() { //MUL_TEST_VECTORS.len()
             let a: Scalar = Scalar::from_slice(&MUL_TEST_VECTORS[i].0).unwrap();
-            let p: AffinePoint = ProjectivePoint::GENERATOR.mul(&a).to_affine();
-            let x_ref: &[u8] = &MUL_TEST_VECTORS[i].1;
-            let y_ref: &[u8] = &MUL_TEST_VECTORS[i].2;
-            if(x_ref == &p.to_encoded_point(false).as_bytes()[1..33] && y_ref == &p.to_encoded_point(false).as_bytes()[33..65] ){
+            let p: AffinePoint = ProjectivePoint::GENERATOR.mul(&a).to_affine();  // use the implemented scalar multiplication
+            let p_enc: EncodedPoint = p.to_encoded_point(false);
+            let p_ref: EncodedPoint = EncodedPoint::from_affine_coordinates(&Array(MUL_TEST_VECTORS[i].1), &Array(MUL_TEST_VECTORS[i].2), false); // this might be replaced once there is a method for AffinePoint
+            assert_eq!(p_enc, p_ref);
+            if(p_enc == p_ref){
                 counter += 1;
             }
         }
-        println!("counter = {:?}",counter);
-
-
-
-
-        //println!("x = {:X?}",p.to_affine().x.to_canonical());
-        //println!("y = {:X?}",p.to_affine().y.to_canonical());
-        /*
-        println!("bytes = {:X?}",p.to_bytes());
-        println!("x_arr = {:X?}",x_arr);
-        println!("y_arr = {:X?}",y_arr);
-        println!("y_arr.len() = {:?}",y_arr.len());
-        if(x_arr == &p.to_encoded_point(false).as_bytes()[1..33]){
-            println!("yo bish")
-        }
-        println!("x_cmp = {:X?}",&p.to_encoded_point(false).as_bytes()[1..33]);
-        println!("x_cmp = {:X?}",&p.to_encoded_point(false).as_bytes()[33..65]);
-        
-         */
+        println!("sample size  = {:?}", MUL_TEST_VECTORS.len());
+        println!("success rate = {:?} %", (100 * counter) as f64 / MUL_TEST_VECTORS.len() as f64);
     }
 
 
-    
+    /*
     #[test]
-    fn scalar_multiplication() {
+    fn scalar_multiplication_old() {
         use crate::test_vectors::r1::MUL_TEST_VECTORS;
         let mut counter = 0;
         for i in 0..MUL_TEST_VECTORS.len() {
@@ -165,4 +151,6 @@ mod tests {
             (100 * counter) as f64 / MUL_TEST_VECTORS.len() as f64
         );
     }
+
+    */
 }
