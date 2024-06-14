@@ -58,12 +58,12 @@ where
         z: C::FieldElement::ONE,
     };
 
-    /// WIP --- Get point from affine coordinates --- jan.hesmert@ehex.de
-    pub fn from_affine_coordinates(x: &C::FieldElement, y: &C::FieldElement) -> Self {
+    /// Get point from projective coordinates
+    pub fn from_projective_coordinates(x: &C::FieldElement, y: &C::FieldElement, z: &C::FieldElement,) -> Self {
         Self {
             x: *x,
             y: *y,
-            z: C::FieldElement::ONE,
+            z: *z,
         }
     }
 

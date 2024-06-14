@@ -28,16 +28,16 @@ use serdect::serde::{de, ser, Deserialize, Serialize};
 #[derive(Clone, Copy, Debug)]
 pub struct AffinePoint<C: PrimeCurveParams> {
     /// x-coordinate
-    pub x: C::FieldElement,
+    pub(crate) x: C::FieldElement,
 
     /// y-coordinate
-    pub y: C::FieldElement,
+    pub(crate) y: C::FieldElement,
 
     /// Is this point the point at infinity? 0 = no, 1 = yes
     ///
     /// This is a proxy for [`Choice`], but uses `u8` instead to permit `const`
     /// constructors for `IDENTITY` and `GENERATOR`.
-    pub infinity: u8,
+    pub(crate) infinity: u8,
 }
 
 impl<C> AffinePoint<C>
@@ -57,6 +57,16 @@ where
         y: C::GENERATOR.1,
         infinity: 0,
     };
+
+    /// Get point from affine coordinates
+    pub fn from_affine_coordinates(x: &C::FieldElement, y: &C::FieldElement) -> Self {
+        Self {
+            x: *x,
+            y: *y,
+            infinity: 0,
+        }
+    }
+
 
     /// Is this point the point at infinity?
     pub fn is_identity(&self) -> Choice {
