@@ -64,16 +64,12 @@ impl From<&Scalar> for ScalarPrimitive {
 
 #[cfg(test)]
 #[allow(unused)]
-
 mod tests {
     use super::*;
     extern crate std;
     use crate::test_vectors::r1::MUL_TEST_VECTORS;
-    use elliptic_curve::{group::GroupEncoding, sec1::ToEncodedPoint};
     use hex_literal::hex;
     use std::println;
-
-    type EncodedPoint = elliptic_curve::sec1::EncodedPoint<BrainpoolP256r1>;
 
     #[test]
     fn playground() {
