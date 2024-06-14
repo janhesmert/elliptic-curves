@@ -58,6 +58,16 @@ where
         z: C::FieldElement::ONE,
     };
 
+    /// WIP --- Get point from affine coordinates --- jan.hesmert@ehex.de
+    pub fn from_affine_coordinates(x: C::FieldElement, y: C::FieldElement)-> Self {
+        Self {
+            x,
+            y,
+            z: C::FieldElement::ONE,
+        }
+    }
+
+
     /// Returns the affine representation of this point, or `None` if it is the identity.
     pub fn to_affine(&self) -> AffinePoint<C> {
         <C::FieldElement as Field>::invert(&self.z)
