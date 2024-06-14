@@ -1,5 +1,5 @@
 // test vectors for bp256r1
-// https://datatracker.ietf.org/doc/rfc8734/
+// https://datatracker.ietf.org/doc/rfc5639/
 // Generated using SageMath:
 //     p = 0xA9FB57DBA1EEA9BC3E660A909D838D726E3BF623D52620282013481D1F6E5377
 //     a = 0x7D5A0975FC2C3057EEF67530417AFFE7FB8055C126DC5C6CE94A4B44F330B5D9

@@ -67,7 +67,6 @@ where
         }
     }
 
-
     /// Returns the affine representation of this point, or `None` if it is the identity.
     pub fn to_affine(&self) -> AffinePoint<C> {
         <C::FieldElement as Field>::invert(&self.z)
