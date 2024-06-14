@@ -59,10 +59,10 @@ where
     };
 
     /// WIP --- Get point from affine coordinates --- jan.hesmert@ehex.de
-    pub fn from_affine_coordinates(x: C::FieldElement, y: C::FieldElement)-> Self {
+    pub fn from_affine_coordinates(x: &C::FieldElement, y: &C::FieldElement) -> Self {
         Self {
-            x,
-            y,
+            x: *x,
+            y: *y,
             z: C::FieldElement::ONE,
         }
     }
