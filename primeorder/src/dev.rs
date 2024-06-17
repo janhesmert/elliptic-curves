@@ -6,7 +6,7 @@
 #[macro_export]
 macro_rules! impl_projective_arithmetic_tests {
     (
-        $affine:tt,
+        $affine: tt,
         $projective:tt,
         $scalar:ty,
         $add_vectors:expr,

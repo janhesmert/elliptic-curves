@@ -59,12 +59,8 @@ where
     };
 
     /// Get point from affine coordinates
-    pub fn from_affine_coordinates(x: &C::FieldElement, y: &C::FieldElement) -> Self {
-        Self {
-            x: *x,
-            y: *y,
-            infinity: 0,
-        }
+    pub fn from_affine_coordinates(x: C::FieldElement, y: C::FieldElement) -> Self {
+        Self { x, y, infinity: 0 }
     }
 
     /// Is this point the point at infinity?

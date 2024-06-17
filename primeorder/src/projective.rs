@@ -60,15 +60,11 @@ where
 
     /// Get point from projective coordinates
     pub fn from_projective_coordinates(
-        x: &C::FieldElement,
-        y: &C::FieldElement,
-        z: &C::FieldElement,
+        x: C::FieldElement,
+        y: C::FieldElement,
+        z: C::FieldElement,
     ) -> Self {
-        Self {
-            x: *x,
-            y: *y,
-            z: *z,
-        }
+        Self { x, y, z }
     }
 
     /// Returns the affine representation of this point, or `None` if it is the identity.
@@ -116,7 +112,7 @@ where
     }
 
     /// Returns `[k] self`.
-    pub fn mul(&self, k: &Scalar<C>) -> Self
+    fn mul(&self, k: &Scalar<C>) -> Self
     where
         Self: Double,
     {

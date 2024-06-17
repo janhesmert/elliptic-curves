@@ -67,8 +67,9 @@ impl From<&Scalar> for ScalarPrimitive {
 mod tests {
     use super::*;
     extern crate std;
-    use crate::test_vectors::t1::MUL_TEST_VECTORS;
     use std::println;
+    use crate::test_vectors::r1::{ADD_TEST_VECTORS, MUL_TEST_VECTORS};
+    use core::ops::Mul;
 
     #[test]
     fn playground() {
@@ -78,7 +79,7 @@ mod tests {
         let y: FieldElement = FieldElement::from_hex(
             "8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC",
         );
-        let p: AffinePoint = AffinePoint::from_affine_coordinates(&x, &y);
+        let p: AffinePoint = AffinePoint::from_affine_coordinates(x, y);
         println!("playground ✔︎");
     }
 
@@ -90,7 +91,7 @@ mod tests {
             let x: FieldElement = FieldElement::from_slice(&MUL_TEST_VECTORS[i].1).unwrap();
             let y: FieldElement = FieldElement::from_slice(&MUL_TEST_VECTORS[i].2).unwrap();
             let p: AffinePoint = ProjectivePoint::GENERATOR.mul(&a).to_affine(); // use the implemented scalar multiplication
-            let p_ref: AffinePoint = AffinePoint::from_affine_coordinates(&x, &y);
+            let p_ref: AffinePoint = AffinePoint::from_affine_coordinates(x, y);
             assert_eq!(p, p_ref);
             if p == p_ref {
                 counter += 1;
