@@ -73,12 +73,13 @@ mod tests {
 
     #[test]
     fn playground() {
-        let x: FieldElement =
-            FieldElement::from_hex("44106E913F92BC02A1705D9953A8414DB95E1AAA49E81D9E85F929A8E3100BE5");
-        let y: FieldElement =
-            FieldElement::from_hex("8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC");
-        let p: AffinePoint =
-            AffinePoint::from_affine_coordinates(&x, &y);
+        let x: FieldElement = FieldElement::from_hex(
+            "44106E913F92BC02A1705D9953A8414DB95E1AAA49E81D9E85F929A8E3100BE5",
+        );
+        let y: FieldElement = FieldElement::from_hex(
+            "8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC",
+        );
+        let p: AffinePoint = AffinePoint::from_affine_coordinates(&x, &y);
         println!("playground ✔︎");
     }
 
@@ -87,23 +88,37 @@ mod tests {
     fn brainpool_test() {
         let p: ProjectivePoint = ProjectivePoint::GENERATOR;
 
-        let d_a: Scalar = Scalar::from_hex("81DB1EE100150FF2EA338D708271BE38300CB54241D79950F77B063039804F1D");
-        let x_qa: FieldElement = FieldElement::from_hex("44106E913F92BC02A1705D9953A8414DB95E1AAA49E81D9E85F929A8E3100BE5");
-        let y_qa: FieldElement = FieldElement::from_hex("8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC");
+        let d_a: Scalar =
+            Scalar::from_hex("81DB1EE100150FF2EA338D708271BE38300CB54241D79950F77B063039804F1D");
+        let x_qa: FieldElement = FieldElement::from_hex(
+            "44106E913F92BC02A1705D9953A8414DB95E1AAA49E81D9E85F929A8E3100BE5",
+        );
+        let y_qa: FieldElement = FieldElement::from_hex(
+            "8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC",
+        );
         let q_a: AffinePoint = p.mul(&d_a).to_affine();
         let q_a_ref: AffinePoint = AffinePoint::from_affine_coordinates(&x_qa, &y_qa);
         assert_eq!(q_a, q_a_ref);
 
-        let d_b: Scalar = Scalar::from_hex("55E40BC41E37E3E2AD25C3C6654511FFA8474A91A0032087593852D3E7D76BD3");
-        let x_qb: FieldElement = FieldElement::from_hex("8D2D688C6CF93E1160AD04CC4429117DC2C41825E1E9FCA0ADDD34E6F1B39F7B");
-        let y_qb: FieldElement = FieldElement::from_hex("990C57520812BE512641E47034832106BC7D3E8DD0E4C7F1136D7006547CEC6A");
+        let d_b: Scalar =
+            Scalar::from_hex("55E40BC41E37E3E2AD25C3C6654511FFA8474A91A0032087593852D3E7D76BD3");
+        let x_qb: FieldElement = FieldElement::from_hex(
+            "8D2D688C6CF93E1160AD04CC4429117DC2C41825E1E9FCA0ADDD34E6F1B39F7B",
+        );
+        let y_qb: FieldElement = FieldElement::from_hex(
+            "990C57520812BE512641E47034832106BC7D3E8DD0E4C7F1136D7006547CEC6A",
+        );
         let q_b: AffinePoint = p.mul(&d_b).to_affine();
         let q_b_ref: AffinePoint = AffinePoint::from_affine_coordinates(&x_qb, &y_qb);
         assert_eq!(q_b, q_b_ref);
 
         let d_ab: Scalar = d_a.multiply(&d_b);
-        let x_z: FieldElement = FieldElement::from_hex("89AFC39D41D3B327814B80940B042590F96556EC91E6AE7939BCE31F3A18BF2B");
-        let y_z: FieldElement = FieldElement::from_hex("49C27868F4ECA2179BFD7D59B1E3BF34C1DBDE61AE12931648F43E59632504DE");
+        let x_z: FieldElement = FieldElement::from_hex(
+            "89AFC39D41D3B327814B80940B042590F96556EC91E6AE7939BCE31F3A18BF2B",
+        );
+        let y_z: FieldElement = FieldElement::from_hex(
+            "49C27868F4ECA2179BFD7D59B1E3BF34C1DBDE61AE12931648F43E59632504DE",
+        );
         let q_ab: AffinePoint = p.mul(&d_ab).to_affine();
         let q_ab_ref: AffinePoint = AffinePoint::from_affine_coordinates(&x_z, &y_z);
         assert_eq!(q_b, q_b_ref);
@@ -128,7 +143,10 @@ mod tests {
         }
         println!("scalar_multiplication ✔︎");
         println!("sample size  = {:?}", MUL_TEST_VECTORS.len());
-        println!("success rate = {:?} %", (100 * counter) as f64 / MUL_TEST_VECTORS.len() as f64);
+        println!(
+            "success rate = {:?} %",
+            (100 * counter) as f64 / MUL_TEST_VECTORS.len() as f64
+        );
     }
 
     /*

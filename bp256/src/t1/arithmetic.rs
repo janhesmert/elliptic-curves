@@ -62,7 +62,6 @@ impl From<&Scalar> for ScalarPrimitive {
     }
 }
 
-
 #[cfg(test)]
 #[allow(unused)]
 mod tests {
@@ -73,15 +72,15 @@ mod tests {
 
     #[test]
     fn playground() {
-        let x: FieldElement =
-            FieldElement::from_hex("44106E913F92BC02A1705D9953A8414DB95E1AAA49E81D9E85F929A8E3100BE5");
-        let y: FieldElement =
-            FieldElement::from_hex("8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC");
+        let x: FieldElement = FieldElement::from_hex(
+            "44106E913F92BC02A1705D9953A8414DB95E1AAA49E81D9E85F929A8E3100BE5",
+        );
+        let y: FieldElement = FieldElement::from_hex(
+            "8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC",
+        );
         let p: AffinePoint = AffinePoint::from_affine_coordinates(&x, &y);
         println!("playground ✔︎");
     }
-
-
 
     #[test]
     fn scalar_multiplication() {
@@ -99,7 +98,9 @@ mod tests {
         }
         println!("scalar_multiplication ✔︎");
         println!("sample size  = {:?}", MUL_TEST_VECTORS.len());
-        println!("success rate = {:?} %", (100 * counter) as f64 / MUL_TEST_VECTORS.len() as f64);
+        println!(
+            "success rate = {:?} %",
+            (100 * counter) as f64 / MUL_TEST_VECTORS.len() as f64
+        );
     }
-
 }

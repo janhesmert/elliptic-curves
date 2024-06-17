@@ -67,7 +67,6 @@ where
         }
     }
 
-
     /// Is this point the point at infinity?
     pub fn is_identity(&self) -> Choice {
         Choice::from(self.infinity)
