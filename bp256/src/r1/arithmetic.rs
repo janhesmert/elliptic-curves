@@ -66,14 +66,11 @@ impl From<&Scalar> for ScalarPrimitive {
 #[allow(unused)]
 mod tests {
     use super::*;
-    extern crate std;
-    use std::println;
     use crate::test_vectors::r1::{ADD_TEST_VECTORS, MUL_TEST_VECTORS};
     use core::ops::Mul;
 
     #[test]
     fn playground() {
-        use std::fs;
         let x: FieldElement = FieldElement::from_hex(
             "44106E913F92BC02A1705D9953A8414DB95E1AAA49E81D9E85F929A8E3100BE5",
         );
@@ -81,7 +78,6 @@ mod tests {
             "8AB4846F11CACCB73CE49CBDD120F5A900A69FD32C272223F789EF10EB089BDC",
         );
         let p: AffinePoint = AffinePoint::from_affine_coordinates(x, y);
-        println!("playground ✔︎");
     }
 
     #[test]
@@ -123,13 +119,10 @@ mod tests {
         let q_ab: AffinePoint = p.mul(&d_ab).to_affine();
         let q_ab_ref: AffinePoint = AffinePoint::from_affine_coordinates(x_z, y_z);
         assert_eq!(q_b, q_b_ref);
-
-        println!("brainpool_test ✔︎");
     }
 
     #[test]
     fn scalar_multiplication() {
-        let mut counter = 0;
         for i in 0..MUL_TEST_VECTORS.len() {
             let a: Scalar = Scalar::from_slice(&MUL_TEST_VECTORS[i].0).unwrap();
             let x: FieldElement = FieldElement::from_slice(&MUL_TEST_VECTORS[i].1).unwrap();
@@ -137,16 +130,7 @@ mod tests {
             let p: AffinePoint = ProjectivePoint::GENERATOR.mul(&a).to_affine(); // use the implemented scalar multiplication
             let p_ref: AffinePoint = AffinePoint::from_affine_coordinates(x, y);
             assert_eq!(p, p_ref);
-            if (p == p_ref) {
-                counter += 1;
-            }
         }
-        println!("scalar_multiplication ✔︎");
-        println!("sample size  = {:?}", MUL_TEST_VECTORS.len());
-        println!(
-            "success rate = {:?} %",
-            (100 * counter) as f64 / MUL_TEST_VECTORS.len() as f64
-        );
     }
 
 
